@@ -12,49 +12,23 @@ export default async function DashboardPage() {
     redirect("/");
   }
 
-  const { data: profile, error } = await supabase
+  const { data: profile } = await supabase
     .from("profiles")
-    .select("name, role")
+    .select("name, role, active")
     .eq("id", user.id)
     .single();
 
-  if (error || !profile) {
-    return (
-      <main className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold">
-            Profile not found
-          </h1>
-
-          <p className="mt-2 text-gray-500">
-            Your account exists, but no application profile was found.
-          </p>
-        </div>
-      </main>
-    );
+  if (!profile || !profile.active) {
+    redirect("/");
   }
 
-  return (
-    <main className="min-h-screen bg-gray-100 p-8">
-      <div className="mx-auto max-w-5xl">
-        <h1 className="text-3xl font-bold">
-          Mukut Shringar Dashboard
-        </h1>
+  if (profile.role === "ADMIN") {
+    redirect("/admin");
+  }
 
-        <p className="mt-2 text-gray-600">
-          Welcome, {profile.name}
-        </p>
+  if (profile.role === "WORKER") {
+    redirect("/worker");
+  }
 
-        <div className="mt-8 rounded-xl bg-white p-6 shadow">
-          <p className="text-sm text-gray-500">
-            Your role
-          </p>
-
-          <p className="mt-1 text-2xl font-semibold">
-            {profile.role}
-          </p>
-        </div>
-      </div>
-    </main>
-  );
+  redirect("/");
 }
