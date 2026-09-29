@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import LogoutButton from "./logout-button";
 
 export default async function AdminLayout({
   children,
@@ -23,14 +24,19 @@ export default async function AdminLayout({
     .eq("id", user.id)
     .single();
 
-  if (!profile || profile.role !== "ADMIN" || !profile.active) {
+  if (
+    !profile ||
+    profile.role !== "ADMIN" ||
+    !profile.active
+  ) {
     redirect("/dashboard");
   }
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className="fixed left-0 top-0 flex h-screen w-64 flex-col bg-white border-r">
+      <aside className="fixed left-0 top-0 flex h-screen w-64 flex-col border-r bg-white">
+        
         {/* Logo */}
         <div className="border-b px-6 py-5">
           <h1 className="text-xl font-bold">
@@ -44,7 +50,7 @@ export default async function AdminLayout({
 
         {/* Navigation */}
         <nav className="flex-1 space-y-1 p-4">
-
+          
           <Link
             href="/admin"
             className="block rounded-lg px-4 py-3 text-sm font-medium hover:bg-gray-100"
@@ -89,7 +95,7 @@ export default async function AdminLayout({
 
         </nav>
 
-        {/* User */}
+        {/* Account / General */}
         <div className="border-t p-4">
           <p className="text-sm font-medium">
             {profile.name}
@@ -98,10 +104,12 @@ export default async function AdminLayout({
           <p className="text-xs text-gray-500">
             Administrator
           </p>
+
+          <LogoutButton />
         </div>
       </aside>
 
-      {/* Main content */}
+      {/* Main Content */}
       <main className="ml-64 min-h-screen flex-1">
         {children}
       </main>
