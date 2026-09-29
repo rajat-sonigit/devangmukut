@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
@@ -32,6 +33,7 @@ export default async function WorkerLayout({
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Header */}
       <header className="border-b bg-white">
         <div className="flex items-center justify-between px-8 py-4">
           <div>
@@ -54,8 +56,35 @@ export default async function WorkerLayout({
             </p>
           </div>
         </div>
+
+        {/* Worker Navigation */}
+        <nav className="border-t px-8 py-3">
+          <div className="flex gap-3">
+            <Link
+              href="/worker"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+            >
+              🏠 Dashboard
+            </Link>
+
+            <Link
+              href="/worker/make-product"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+            >
+              ➕ Make Product
+            </Link>
+
+            <Link
+              href="/worker/requests"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+            >
+              📋 My Requests
+            </Link>
+          </div>
+        </nav>
       </header>
 
+      {/* Page */}
       <main>{children}</main>
     </div>
   );
