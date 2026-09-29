@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import LogoutButton from "./logout-button";
 
 export default async function WorkerLayout({
   children,
@@ -33,59 +34,86 @@ export default async function WorkerLayout({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+
+      {/* ================= HEADER ================= */}
       <header className="border-b bg-white">
-        <div className="flex items-center justify-between px-8 py-4">
+
+        {/* Top Header */}
+        <div className="flex items-center justify-between px-8 py-5">
+
+          {/* Brand */}
           <div>
-            <h1 className="text-xl font-bold">
+            <h1 className="text-2xl font-bold text-gray-900">
               Mukut Shringar
             </h1>
 
-            <p className="text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-500">
               Worker Panel
             </p>
           </div>
 
-          <div className="text-right">
-            <p className="text-sm font-medium">
-              {profile.name}
-            </p>
+          {/* Worker Information */}
+          <div className="flex items-center gap-5">
 
-            <p className="text-xs text-gray-500">
-              Worker
-            </p>
+            <div className="text-right">
+              <p className="text-base font-semibold text-gray-900">
+                {profile.name}
+              </p>
+
+              <p className="text-sm text-gray-500">
+                Worker
+              </p>
+            </div>
+
           </div>
+
         </div>
 
-        {/* Worker Navigation */}
-        <nav className="border-t px-8 py-3">
-          <div className="flex gap-3">
-            <Link
-              href="/worker"
-              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
-            >
-              🏠 Dashboard
-            </Link>
+        {/* ================= NAVIGATION ================= */}
+        <div className="border-t bg-gray-50 px-8 py-4">
 
-            <Link
-              href="/worker/make-product"
-              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
-            >
-              ➕ Make Product
-            </Link>
+          <div className="flex flex-wrap items-center justify-between gap-4">
 
-            <Link
-              href="/worker/requests"
-              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
-            >
-              📋 My Requests
-            </Link>
+            {/* Navigation Links */}
+            <nav className="flex flex-wrap gap-3">
+
+              <Link
+                href="/worker"
+                className="rounded-lg border bg-white px-5 py-3 text-sm font-semibold text-gray-700 shadow-sm transition hover:bg-gray-100"
+              >
+                🏠 Dashboard
+              </Link>
+
+              <Link
+                href="/worker/make-product"
+                className="rounded-lg border bg-white px-5 py-3 text-sm font-semibold text-gray-700 shadow-sm transition hover:bg-gray-100"
+              >
+                ➕ Make Product
+              </Link>
+
+              <Link
+                href="/worker/requests"
+                className="rounded-lg border bg-white px-5 py-3 text-sm font-semibold text-gray-700 shadow-sm transition hover:bg-gray-100"
+              >
+                📋 My Requests
+              </Link>
+
+            </nav>
+
+            {/* BIG LOGOUT BUTTON */}
+            <LogoutButton />
+
           </div>
-        </nav>
+
+        </div>
+
       </header>
 
-      {/* Page */}
-      <main>{children}</main>
+      {/* ================= PAGE CONTENT ================= */}
+      <main>
+        {children}
+      </main>
+
     </div>
   );
 }
